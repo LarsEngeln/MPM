@@ -2,7 +2,8 @@
 <?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <tei:classSpec ident="att.time.frameLength" type="atts" module="mpm.core" mode="add" 
-    xmlns:tei="http://www.tei-c.org/ns/1.0">
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:schematron="http://purl.oclc.org/dsdl/schematron">
     <tei:gloss>frame length attribute class</tei:gloss>
     
     <tei:desc>This attribute class provides the attribute <tei:att>frameLength</tei:att>.</tei:desc>
@@ -10,10 +11,17 @@
     <tei:attList>
         <tei:attDef ident="frameLength" usage="opt">
             <tei:gloss>frame length</tei:gloss>
-            <tei:desc>The length of a time frame.</tei:desc>
+            <tei:desc>The length of a time frame, given as a double optionally followed by a unit suffix: <tei:val>ms</tei:val> (milliseconds), <tei:val>%</tei:val> (relative), or <tei:val>ticks</tei:val> (symbolic). If no unit is provided the unit need to be specified by <tei:att>time.unit</tei:att>.</tei:desc>
             <tei:datatype>
-                <tei:dataRef name="double"/>
+                <tei:dataRef name="string"/>
             </tei:datatype>
+            <tei:constraintSpec ident="att.time.frameLength_format" scheme="schematron">
+                <tei:constraint>
+                    <schematron:rule context="attribute::frameLength">
+                        <schematron:assert test="matches(., '^-?[0-9]+(\.[0-9]+)?(ms|%|ticks)?$')">The value of @frameLength must be a double optionally followed by a unit suffix 'ms', '%', or 'ticks', e.g. '200', '200ms', '50.0%', or '480ticks'.</schematron:assert>
+                    </schematron:rule>
+                </tei:constraint>
+            </tei:constraintSpec>
         </tei:attDef>
     </tei:attList>
 </tei:classSpec>
