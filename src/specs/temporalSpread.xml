@@ -40,7 +40,7 @@
     <tei:exemplum>
         <egXML xmlns="http://www.tei-c.org/ns/Examples">
             <temporalSpread
-                frame.start="-100.0" frameLength="200.0"
+                frame.offset="-100.0ms" frameLength="200.0ticks"
                 intensity="1.4"
                 noteoff.shift="true"/>
         </egXML>

@@ -7,9 +7,24 @@
     <tei:desc>This attribute class provides the attribute <tei:att>frame.start</tei:att>.</tei:desc>
     
     <tei:attList>
+     <tei:attDef ident="frame.offset" usage="opt">
+            <tei:gloss>frame offset</tei:gloss>
+            <tei:desc>The attribute <tei:att>frame.offset</tei:att> provides the offset of a frame, given as a double optionally followed by a unit suffix: <tei:val>ms</tei:val> (milliseconds), <tei:val>%</tei:val> (relative), or <tei:val>ticks</tei:val> (symbolic). If no unit is provided the unit falls back to the value of <tei:att>time.unit</tei:att>.</tei:desc>
+            <tei:datatype>
+                <tei:dataRef name="string"/>
+            </tei:datatype>
+            <tei:defaultVal>0.0</tei:defaultVal>
+            <tei:constraintSpec ident="att.time.frame_offset_format" scheme="schematron">
+                <tei:constraint>
+                    <schematron:rule context="attribute::frame.offset">
+                        <schematron:assert test="matches(., '^-?[0-9]+(\.[0-9]+)?(ms|%|ticks)?$')">The value of @frame.offset must be a double optionally followed by a unit suffix 'ms', '%', or 'ticks', e.g. '0', '-100ms', '50.0%', or '480ticks'.</schematron:assert>
+                    </schematron:rule>
+                </tei:constraint>
+            </tei:constraintSpec>
+        </tei:attDef>
         <tei:attDef ident="frame.start" usage="opt">
             <tei:gloss>frame start</tei:gloss>
-            <tei:desc>The attribute <tei:att>frame.start</tei:att> provides the start of a frame.</tei:desc>
+            <tei:desc>[deprecated: renamed to <tei:att>frame.offset</tei:att>] The attribute <tei:att>frame.start</tei:att> provides the start of a frame.</tei:desc>
             <tei:datatype>
                 <tei:dataRef name="double" />
             </tei:datatype>
