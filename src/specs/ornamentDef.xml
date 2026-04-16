@@ -21,6 +21,21 @@
         </relaxng:interleave>
     </tei:content>
     
+    <tei:attList>
+        <tei:attDef ident="placement" usage="opt">
+            <tei:gloss>placement</tei:gloss>
+            <tei:desc>Defines whether the ornament is rendered at the start or at the end of the note.</tei:desc>
+            <tei:datatype>
+                <tei:dataRef name="string"/>
+            </tei:datatype>
+            <tei:defaultVal>atStart</tei:defaultVal>
+            <tei:valList type="closed">
+                <tei:valItem ident="atStart"/>
+                <tei:valItem ident="atEnd"/>
+            </tei:valList>
+        </tei:attDef>
+    </tei:attList>
+    
     <tei:constraintSpec scheme="schematron" ident="ornamentDef_ancestor_constraint">
         <tei:desc>This element is allowed only within the <tei:gi>ornamentationStyles</tei:gi>/<tei:gi>styleDef</tei:gi> environment.</tei:desc>
         <tei:constraint>
@@ -36,6 +51,11 @@
                 <temporalSpread frame.offset="-100.0" frameLength="200.0"
                     intensity="1.4"
                     noteoff.shift="true"/>
+                <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
+            </ornamentDef>
+            <ornamentDef name="upper turn" placement="atEnd">
+                <temporalSpread frame.offset="0" frameLength="200.0"
+                    intensity="1.2"/>
                 <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
             </ornamentDef>
         </egXML>
