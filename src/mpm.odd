@@ -652,11 +652,16 @@
             <tei:div type="chapter">
                 <tei:head>Ornamentation</tei:head>
                 
-                <tei:p>Musical ornamentation and embellishment is a complex conglomeration of effects to the music. It may affect the way a group of events/notes are played or alter their chronological sequence (e.g. through arpeggiations). It might add further notes (e.g. grace notes and passing notes) or even replace the musical material. The current state of research is still rather fragmented and far away from a cohesive, theoretical model. Therefore, MPM's ornamentation section is yet very basic and desires substantial extensions with future in-depth research. In MPM, an ornament is defined by a series of transformations. These describe how the musical material, that it is applied to, is altered. The following transformations are currently available.</tei:p>
+                <tei:p>Musical ornamentation and embellishment is a complex conglomeration of effects to the music. It may affect the way a group of events/notes are played or alter their chronological sequence (e.g. through arpeggiations). It might add further notes (e.g. grace notes, passing notes or trill repetitions) or even replace the musical material. The current state of research is still rather fragmented and far away from a cohesive, theoretical model. Therefore, MPM's ornamentation section provides a substantial approach to describe ornamentations, but future in-depth research may result in extentions. In MPM, an ornament is defined by a series of transformations. These describe how the musical material, that it is applied to, is altered. The following transformations are currently available.</tei:p>
 
                 <tei:list type="gloss">
                     <tei:label><tei:gi>temporalSpread</tei:gi></tei:label>
-                    <tei:item>This transformer offsets the notes at a given time by a certain amount defined by a power function. The offset window starts at initial date - <tei:att>frame.offset</tei:att> and it ends at initial date - <tei:att>frame.offset</tei:att> + <tei:att>frameLength</tei:att>. The unit of these offsets can be "ticks" (default) or "milliseconds", as specified by <tei:att>time.unit</tei:att>. The notes will be distributed over this time frame, just as with an arpeggiated chord. Their placement can be further refined by <tei:att>intensity</tei:att> which sets the course of a power function (default is 1.0 for an equidistant placement). The offset of the notes can get further treatment via <tei:att>noteoff.shift</tei:att>. By default, the offset remains at its initial date, so the notes end at he same time as before the offset. Setting <tei:att>noteoff.shift</tei:att> true shifts the offset by the same amount as the note's onset. If <tei:att>noteoff.shift</tei:att> is set "monoponic" the notes are played sequentially and non-overlapping.</tei:item>
+                    <tei:item>This transformer spaces the notes of an ornament at a given time by a certain amount defined by a power function. The window starts at the principal note's initial date + <tei:att>frame.offset</tei:att> and it ends at the principal note's initial date + <tei:att>frame.offset</tei:att> + <tei:att>frameLength</tei:att>. 
+                    The unit of the <tei:att>frame.offset</tei:att> and the <tei:att>frameLength</tei:att> can be "ticks" (default), "milliseconds", or "relative" (in percent), as specified individually by the givin inline unit (e.g. "360ticks", "20.5ms", "80%") or with a <tei:att>time.unit</tei:att> applied for both, if no specific inline unit is given. The notes will be distributed over this time frame, just as with an arpeggiated chord. 
+                    Their spacing can be further refined by <tei:att>intensity</tei:att> which sets the course of a power function (default is 1.0 for an equidistant spacing). 
+                    The spaced note's length can get further treatment via <tei:att>noteoff.shift</tei:att>. By default, the ornamented notes (e.g. of an arppegiated chord) remain their initial length, so that ornamented notes may hang over the principal note's/chord's initial end. Setting <tei:att>noteoff.shift</tei:att> true keeps the principal note's/chord's initial end, by shifting the ornamented note's end. If <tei:att>noteoff.shift</tei:att> is set to "monoponic", the notes are played sequentially and non-overlapping. 
+                    With <tei:att>placement</tei:att> the ornament can be placed to the start of the principal note with "atStart" (default) or at the end ("atEnd") within the principal note's duration. 
+                    Multiple ornaments can be applied to the same prinipal note and are spaced sequentially in time.</tei:item>
 
                     <tei:label><tei:gi>dynamicsGradient</tei:gi></tei:label>
                     <tei:item>This transformer adds dynamics to an ornament. Following the same concept as metrical accentuation this can feature a constant or linear course, specified by <tei:att>transition.from</tei:att> and <tei:att>transition.to</tei:att>, both in [-1.0, 1.0] where 1.0 means maximum accentuation and -1.0 maximum restraint.</tei:item>
@@ -667,7 +672,7 @@
                     <tei:head>Defining arpeggio ornaments with MPM's ornamentation transformers <tei:gi>temporalSpread</tei:gi> and <tei:gi>dynamicsGradient</tei:gi>. The modelling of arpeggios is more deeply discussed in <tei:ref target="https://github.com/axelberndt/MPM/issues/55">this issue</tei:ref>.</tei:head>
                 </tei:figure>
                 
-                <tei:p>As ornaments can become relatively complex, they are generally defined in the <tei:gi>header</tei:gi>'s <tei:gi>ornamentationStyles</tei:gi> and referenced in the <tei:gi>ornamentationMap</tei:gi>. In the following code example we define "arpeggio" in two styles and apply one via <tei:gi>ornament</tei:gi> in the <tei:gi>ornamentationMap</tei:gi>.</tei:p>
+                <tei:p>As ornaments can become relatively complex. They are generally defined in the <tei:gi>header</tei:gi>'s <tei:gi>ornamentationStyles</tei:gi> and referenced in the <tei:gi>ornamentationMap</tei:gi>. In the following code example we define "arpeggio" in two styles and apply one via <tei:gi>ornament</tei:gi> in the <tei:gi>ornamentationMap</tei:gi>.</tei:p>
                 
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
                     <header>
@@ -694,7 +699,39 @@
                     </dated>
                 </egXML>
                 
-                <tei:p>In element <tei:gi>ornament</tei:gi> attribute <tei:att>scale</tei:att> (optional, default value is 0.0) has the same function as in <tei:gi>accentuationPattern</tei:gi>, it scales the ornament's dynamics gradient to loudness/velocity values. With <tei:att>note.order</tei:att> (optional) we can specify which notes in the current scope are part of the ornament and in which sequence. Possible values are "ascending pitch" (order all notes at <tei:att>date</tei:att> by increasing pitch), "descending pitch" (opposite of "ascending pitch"), or a space separated list of note ID references as in the above code example.</tei:p>
+                <tei:p>The <tei:gi>ornament</tei:gi> element's attribute <tei:att>scale</tei:att> (optional, default value is 0.0) has the same function as in <tei:gi>accentuationPattern</tei:gi>. It scales the ornament's dynamics gradient to loudness/velocity values.
+                With <tei:att>note.order</tei:att> (optional) we can specify which notes in the current scope are part of the ornament and in which sequence. Possible values are "ascending pitch" (orders all notes at <tei:att>date</tei:att> by increasing pitch), "descending pitch" (opposite of "ascending pitch"), or a space separated list of note ID references as in the above code example. In the space separated list of note ID references, chords (notes spaced on the same time) are defined within "["/"]" (e.g. "[ #n97 #98 ]"), and a repetition group, that is repeated <tei:att>repetitions</tei:att> times, is defined with "|:"/":|" (e.g. "|: #n95 #96 :|").
+                The <tei:gi>ornament</tei:gi> element may contain <tei:gi>ornament.note<tei:gei> elements, which define alterations (e.g. grace notes, passing notes or trill notes) of the principal note via <tei:att>intm</tei:att> as halftone steps (see the example of an trill and upper turn below).
+                </tei:p>
+
+                <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <header>
+                        <ornamentationStyles>
+                            <styleDef name="my style">
+                                <ornamentDef name="trill">
+                                    <dynamicsGradient transition.from="1.0" transition.to="0.0"/>
+                                    <temporalSpread frame.offset="22.0ms" frameLength="90%" noteoff.shift="monophonic"/>
+                                </ornamentDef>
+                                <ornamentDef name="upper turn">
+                                    <dynamicsGradient transition.from="0.5" transition.to="-1.0"/>
+                                    <temporalSpread frame.offset="0.0" frameLength="100%" intensity="0.5" noteoff.shift="monophonic"/>
+                                </ornamentDef>
+                            </styleDef>
+                        </ornamentationStyles>
+                    </header>
+                    <dated>
+                        <ornamentationMap>
+                            <style date="0.0" name.ref="my style"/>
+                            <ornament date="4860.0" name.ref="trill" note.order="|: #on1 #n96 :|">
+                                <ornament.note xml:id="on1" intm="2"/>
+                            </ornament> 
+                            <ornament date="6300.0" name.ref="upper turn" note.order="#on2 #n97 #on3 #n97">
+                                <ornament.note xml:id="on2" intm="2"/>
+                                <ornament.note xml:id="on3" intm="-1"/>
+                            </ornament>
+                        </ornamentationMap>
+                    </dated>
+                </egXML>
             </tei:div>
             
             <tei:div type="chapter">
