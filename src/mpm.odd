@@ -706,7 +706,7 @@
                 
                 <tei:p>The <tei:gi>ornament</tei:gi> element's attribute <tei:att>scale</tei:att> (optional, default value is 0.0) has the same function as in <tei:gi>accentuationPattern</tei:gi>. It scales the ornament's dynamics gradient to loudness/velocity values.
                 With <tei:att>note.order</tei:att> (optional) we can specify which notes in the current scope are part of the ornament and in which sequence. Possible values are "ascending pitch" (orders all notes at <tei:att>date</tei:att> by increasing pitch), "descending pitch" (opposite of "ascending pitch"), or a space separated list of note ID references as in the above code example. In the space separated list of note ID references, chords (notes spaced on the same time) are defined within "["/"]" (e.g. "[ #n97 #98 ]"), and a repetition group, that is repeated <tei:att>repetitions</tei:att> times, is defined with "|:"/":|" (e.g. "|: #n95 #96 :|").
-                The <tei:gi>ornament</tei:gi> element may contain <tei:gi>ornamentNote<tei:gei> elements, which define alterations (e.g. grace notes, passing notes or trill notes) of the principal note via <tei:att>intm</tei:att> as halftone steps (see the example of an trill and upper turn below).
+                The <tei:gi>ornament</tei:gi> element may contain <tei:gi>ornamentNote</tei:gi> elements, which define alterations (e.g. grace notes, passing notes or trill notes) of the principal note via <tei:att>intm</tei:att> as halftone steps (see the example of an trill and upper turn below).
                 </tei:p>
 
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
