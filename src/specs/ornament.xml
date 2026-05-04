@@ -5,7 +5,7 @@
     xmlns:tei="http://www.tei-c.org/ns/1.0">
     <tei:gloss>ornament</tei:gloss>
     
-    <tei:desc>An ornament instruction</tei:desc>
+    <tei:desc>An <tei:gi>ornament</tei:gi> describes how ornaments like arpeggios, trills, mordents, turns, tremolos, etc. are to be performed.</tei:desc>
     
     <tei:classes>
         <tei:memberOf key="att.id"/>
@@ -16,7 +16,7 @@
     </tei:classes>
     
     <tei:content>
-        <tei:elementRef key="ornamentNote" minOccurs="0" maxOccurs="unbounded"/>
+        <tei:elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
     </tei:content>
 
     <tei:attList>
@@ -31,13 +31,13 @@
         
         <tei:attDef ident="repetitions" usage="opt">
             <tei:gloss>repetitions</tei:gloss>
-            <tei:desc>The number of times the repetition-group is to be repeated within the time frame of the ornament. A repetition group is placed at least once. Whereas <tei:val>0</tei:val> repetitions indicates that the repetition-group is tried to be spaced as 16th (tuplets) notes.</tei:desc>
+            <tei:desc>This attributes describes a programmatic expansion of the ornament. In the <tei:att>note.order</tei:att> the repetition groups can be specified by <tei:val>|:</tei:val> and <tei:val>:|</tei:val>. The attribute <tei:att>repetitions</tei:att> defines how many times the repetition-group is to be repeated within the time frame of the ornament. A value of <tei:val>0</tei:val> (default) repetitions indicates that the repetition-group is played only once</tei:desc>
             <tei:datatype>
                 <tei:dataRef name="integer">
                     <tei:dataFacet name="minInclusive" value="0"/>
                 </tei:dataRef>
             </tei:datatype>
-            <tei:defaultVal>1</tei:defaultVal>
+            <tei:defaultVal>0</tei:defaultVal>
         </tei:attDef>
         
     </tei:attList>
@@ -48,19 +48,20 @@
             a scaled dynamic gradient.
             The second <tei:gi>ornament</tei:gi> defines an arpeggiation of the notes listed in
             <tei:att>note.order</tei:att> in the given order.
-            The third <tei:gi>ornament</tei:gi> applies a half tone trill to the notes #n1 and #n2, repeating the trill pattern three times within the time frame of the ornament.
+            The third <tei:gi>ornament</tei:gi> applies a half tone (#n1) trill to the note (#princNote), repeating the trill pattern three times within the time frame of the ornament. So, it is played four times.
         </tei:p>
         <egXML xmlns="http://www.tei-c.org/ns/Examples">
             <ornament date="0.0" name.ref="arpeggio" scale="20.0" note.order="ascending pitch"/>
             <ornament date="720.0" name.ref="arpeggio" scale="20.0" note.order="#id1 #id3 #id2 #id4"/>
-            <ornament date="720.0" name.ref="trill" note.order="|: #n1 #n2 :|" repetitions="3">
-                <note xml:id="n1" intm="1.0hs"/>
-                <note xml:id="n2" intm="0.0hs"/>
+            <ornament date="720.0" name.ref="trill" note.order="|: #n1 #princNote :|" repetitions="3">
+                <note xml:id="n1" interval.chromatic="1.0"/>
             </ornament>
         </egXML>
     </tei:exemplum>
     
     <tei:remarks>
         <tei:p>The use of attribute <tei:att>name.ref</tei:att> requires the presence of an <tei:gi>ornamentDef</tei:gi> of the same name within an ornament style. In the <tei:gi>ornamentationMap</tei:gi> there must be a <tei:gi>style</tei:gi> element switching to this style before the first reference to an <tei:gi>ornamentationDef</tei:gi> within that style.</tei:p>
+        <tei:p>If the <tei:gi>ornament</tei:gi> has a pool of <tei:gi>note</tei:gi>s as children, these notes can be referenced in the <tei:att>note.order</tei:att> attribute for usage, but could also stay unused.
+        Within the pool of notes, the notes' order have no semantic meaning, as the order is determined by the <tei:att>note.order</tei:att> attribute.</tei:p>
     </tei:remarks>
 </tei:elementSpec>

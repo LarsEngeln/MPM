@@ -22,16 +22,13 @@
     </tei:content>
     
     <tei:attList>
-        <tei:attDef ident="placement" usage="opt">
-            <tei:gloss>placement</tei:gloss>
+        <tei:attDef ident="alignment" usage="opt">
+            <tei:gloss>alignment</tei:gloss>
             <tei:desc>Defines whether the ornament is rendered at the start or at the end of the note.</tei:desc>
-            <tei:datatype>
-                <tei:dataRef name="string"/>
-            </tei:datatype>
-            <tei:defaultVal>atStart</tei:defaultVal>
+            <tei:defaultVal>at start</tei:defaultVal>
             <tei:valList type="closed">
-                <tei:valItem ident="atStart"/>
-                <tei:valItem ident="atEnd"/>
+                <tei:valItem ident="at start"/>
+                <tei:valItem ident="at end"/>
             </tei:valList>
         </tei:attDef>
     </tei:attList>
@@ -46,6 +43,10 @@
     </tei:constraintSpec>
     
     <tei:exemplum>
+         <tei:p>
+            The first <tei:gi>ornament</tei:gi> applies an arpeggio with definition name "arpeggio".
+            The second <tei:gi>ornament</tei:gi> applies an turn that is delayed ("at end") defined as "upper turn".
+        </tei:p>
         <egXML xmlns="http://www.tei-c.org/ns/Examples">
             <ornamentDef name="arpeggio">
                 <temporalSpread frame.offset="-100.0" frameLength="200.0"
@@ -53,8 +54,8 @@
                     noteoff.shift="true"/>
                 <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
             </ornamentDef>
-            <ornamentDef name="upper turn" placement="atEnd">
-                <temporalSpread frame.offset="0" frameLength="200.0"
+            <ornamentDef name="upper turn" alignment="at end">
+                <temporalSpread frame.offset="0" frameLength="100.0%"
                     intensity="1.2"/>
                 <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
             </ornamentDef>

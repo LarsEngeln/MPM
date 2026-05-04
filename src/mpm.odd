@@ -14,7 +14,7 @@
             </tei:titleStmt>
             
             <tei:editionStmt>
-                <tei:edition n="2.1.5"/>
+                <tei:edition n="3.0.0"/>
             </tei:editionStmt>
             
             <tei:publicationStmt>
@@ -70,6 +70,18 @@
             </tei:change>
             <tei:change status="2.1.4" who="Axel Berndt">Value range of attribute <tei:att>frameLength</tei:att> of element <tei:gi>temporalSpread</tei:gi> must be greater or equal to 0.0. Negative values are not allowed, at least in this context.</tei:change>
             <tei:change status="2.1.5" who="Axel Berndt">Value range of attribute <tei:att>frameLength</tei:att> of element <tei:gi>temporalSpread</tei:gi> was defined with maxInclusive 0.0. This is fixed to minInclusive 0.0.</tei:change>
+            <tei:change status="3.0.0" who="Lars Engeln">
+                Expanded ornamentation model to describe ornaments with discrete notes such as trills, mordents, turns, tremolos, etc. 
+                <tei:list>
+                    <tei:item>Renames <tei:att>frame.start</tei:att> to <tei:att>frame.offset</tei:att> to better reflect its function as an offset of the frame relative to the date of the element.</tei:item>
+                    <tei:item>Added unit suffixes to the frame attributes to support indivuidual units and removed the attribute <tei:att>time.unit</tei:att> since it is no longer needed.</tei:item>
+                    <tei:item>Added <tei:val>relative</tei:val> time in "%" .</tei:item>
+                    <tei:item>Added <tei:gi>note</tei:gi> as possible child to <tei:gi>ornament</tei:gi>, with <tei:att>midi.pitch</tei:att>, <tei:att>interval.chromatic</tei:att> and <tei:att>interval.diatonic</tei:att> attributes to describe the note's pitch.</tei:item>
+                    <tei:item>Added <tei:att>repetitions</tei:att> to <tei:gi>ornament</tei:gi> to set the amount of repetitions of the optional <tei:att>note.order</tei:att>'s repetition group.</tei:item>
+                    <tei:item>Extended the <tei:att>note.order</tei:att> to support the usage of <tei:gi>note</tei:gi> from an <tei:gi>ornament</tei:gi>'s note pool, repetitions and chord-groups.</tei:item>
+                    <tei:item>Added <tei:att>alignment</tei:att> to <tei:gi>temporalSpread</tei:gi> to position the frame of an <tei:gi>ornament</tei:gi> to the end of the principal note.</tei:item>
+                </tei:list>
+            </tei:change>
         </tei:revisionDesc>
     </tei:teiHeader>
     
@@ -652,16 +664,17 @@
             <tei:div type="chapter">
                 <tei:head>Ornamentation</tei:head>
                 
-                <tei:p>Musical ornamentation and embellishment is a complex conglomeration of effects to the music. It may affect the way a group of events/notes are played or alter their chronological sequence (e.g. through arpeggiations). It might add further notes (e.g. grace notes, passing notes or trill repetitions) or even replace the musical material. The current state of research is still rather fragmented and far away from a cohesive, theoretical model. Therefore, MPM's ornamentation section provides a substantial approach to describe ornamentations, but future in-depth research may result in extentions. In MPM, an ornament is defined by a series of transformations. These describe how the musical material, that it is applied to, is altered. The following transformations are currently available.</tei:p>
+                <tei:p>Musical ornamentation and embellishment is a complex conglomerate of effects to the music. It may affect the way a group of events/notes are played or alter their chronological sequence (e.g. through arpeggiations). It might add further notes to the given principal note (e.g. grace notes, passing notes or trill) or even replace the principal note. The current state of research is still rather incomplete and far away from a cohesive theoretical model. Therefore, MPM's ornamentation section provides an approach to describe ornamentations, but future in-depth research may result in extentions. In MPM, an ornament is defined by a series of transformations. These describe how the principal note, that the ornament is applied to, is altered. The following transformations are currently available.</tei:p>
 
                 <tei:list type="gloss">
                     <tei:label><tei:gi>temporalSpread</tei:gi></tei:label>
-                    <tei:item>This transformer spaces the notes of an ornament at a given time by a certain amount defined by a power function. The window starts at the principal note's initial date + <tei:att>frame.offset</tei:att> and it ends at the principal note's initial date + <tei:att>frame.offset</tei:att> + <tei:att>frameLength</tei:att>. 
-                    The unit of the <tei:att>frame.offset</tei:att> and the <tei:att>frameLength</tei:att> can be "ticks" (default), "milliseconds", or "relative" (in percent), as specified individually by the givin inline unit (e.g. "360ticks", "20.5ms", "80%") or with a <tei:att>time.unit</tei:att> applied for both, if no specific inline unit is given. The notes will be distributed over this time frame, just as with an arpeggiated chord. 
-                    Their spacing can be further refined by <tei:att>intensity</tei:att> which sets the course of a power function (default is 1.0 for an equidistant spacing). 
-                    The spaced note's length can get further treatment via <tei:att>noteoff.shift</tei:att>. By default, the ornamented notes (e.g. of an arppegiated chord) remain their initial length, so that ornamented notes may hang over the principal note's/chord's initial end. Setting <tei:att>noteoff.shift</tei:att> true keeps the principal note's/chord's initial end, by shifting the ornamented note's end. If <tei:att>noteoff.shift</tei:att> is set to "monoponic", the notes are played sequentially and non-overlapping. 
-                    With <tei:att>placement</tei:att> the ornament can be placed to the start of the principal note with "atStart" (default) or at the end ("atEnd") within the principal note's duration. 
-                    Multiple ornaments can be applied to the same prinipal note and are spaced sequentially in time.</tei:item>
+                    <tei:item>This transformer spaces the notes of an ornament within a given time frame. The timing of the ornament's notes is specified by a power function. The time frame starts at the principal note's initial date + <tei:att>frame.offset</tei:att> and ends at the principal note's initial date + <tei:att>frame.offset</tei:att> + <tei:att>frameLength</tei:att>. 
+                    The unit of <tei:att>frame.offset</tei:att> and the <tei:att>frameLength</tei:att> can be "ticks" (default), "milliseconds", or "relative" (in percent), as specified individually by the given inline unit (e.g. "360ticks", "20.5ms", "80%").
+                    The note's spacing can be further refined by the attribute <tei:att>intensity</tei:att> which sets the course of a power function (default is 1.0 for an equidistant spacing). 
+                    The spaced notes' length can undergo further treatment via <tei:att>noteoff.shift</tei:att>. By default <tei:att>noteoff.shift</tei:att> is <tei:val>false</tei:val>, so that all ornament notes (e.g. of an arppegiated chord) end at the principal note's noteOff, thereby forming a chord. Setting <tei:att>noteoff.shift</tei:att> to <tei:val>true</tei:val>, all ornament notes have the duration of the principal note. Those notes that start later in the ornament will end later (as the principal note) accordingly. If <tei:att>noteoff.shift</tei:att> is set to "monophonic", the notes' durations are shortened, so they are played sequentially and non-overlapping.
+                    With <tei:att>alignment</tei:att> the ornament can be placed at the start of the principal note with <tei:val>"at start"</tei:val> (default) or at the end with <tei:val>"at end"</tei:val>. 
+                    Multiple ornaments can be applied to the same prinipal note and are spaced sequentially. <!--If multiple ornaments for one principal note want to use more time than the principal note has, they are shortend according to their ratio (e.g. "80%" and "40%" wanted lenghts result in "66.6%" and "33.3%" effective lenghts for keeping the ratio of 2:1). Although, an overlength should never happen. -->
+                </tei:item>
 
                     <tei:figure>
                         <tei:graphic url="https://raw.githubusercontent.com/axelberndt/MPM/master/figures/modelling_ornaments.png" height="300px"/>
@@ -677,7 +690,7 @@
                     <tei:head>Defining arpeggio ornaments with MPM's ornamentation transformers <tei:gi>temporalSpread</tei:gi> and <tei:gi>dynamicsGradient</tei:gi>. The modelling of arpeggios is more deeply discussed in <tei:ref target="https://github.com/axelberndt/MPM/issues/55">this issue</tei:ref>.</tei:head>
                 </tei:figure>
                 
-                <tei:p>As ornaments can become relatively complex. They are generally defined in the <tei:gi>header</tei:gi>'s <tei:gi>ornamentationStyles</tei:gi> and referenced in the <tei:gi>ornamentationMap</tei:gi>. In the following code example we define "arpeggio" in two styles and apply one via <tei:gi>ornament</tei:gi> in the <tei:gi>ornamentationMap</tei:gi>.</tei:p>
+                <tei:p>As ornaments can become relatively complex, they are generally defined in the <tei:gi>header</tei:gi>'s <tei:gi>ornamentationStyles</tei:gi> and referenced in the <tei:gi>ornamentationMap</tei:gi>. In the following code example we define "arpeggio" in two styles and apply one via <tei:gi>ornament</tei:gi> in the <tei:gi>ornamentationMap</tei:gi>.</tei:p>
                 
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
                     <header>
@@ -704,9 +717,10 @@
                     </dated>
                 </egXML>
                 
-                <tei:p>The <tei:gi>ornament</tei:gi> element's attribute <tei:att>scale</tei:att> (optional, default value is 0.0) has the same function as in <tei:gi>accentuationPattern</tei:gi>. It scales the ornament's dynamics gradient to loudness/velocity values.
-                With <tei:att>note.order</tei:att> (optional) we can specify which notes in the current scope are part of the ornament and in which sequence. Possible values are "ascending pitch" (orders all notes at <tei:att>date</tei:att> by increasing pitch), "descending pitch" (opposite of "ascending pitch"), or a space separated list of note ID references as in the above code example. In the space separated list of note ID references, chords (notes spaced on the same time) are defined within "["/"]" (e.g. "[ #n97 #98 ]"), and a repetition group, that is repeated <tei:att>repetitions</tei:att> times, is defined with "|:"/":|" (e.g. "|: #n95 #96 :|").
-                The <tei:gi>ornament</tei:gi> element may contain <tei:gi>ornamentNote</tei:gi> elements, which define alterations (e.g. grace notes, passing notes or trill notes) of the principal note via <tei:att>intm</tei:att> as halftone steps (see the example of an trill and upper turn below).
+                <tei:p>The <tei:gi>ornament</tei:gi> element's attribute <tei:att>scale</tei:att> (optional, default value is <tei:val>0.0</tei:val>) has the same function as in <tei:gi>accentuationPattern</tei:gi>. It scales the ornament's dynamics gradient to loudness/velocity values.
+                The <tei:gi>ornament</tei:gi> element may contain <tei:gi>note</tei:gi> elements, which define a pool of notes as alterations (e.g. grace notes, passing notes or trill notes) of the principal note via <tei:att>interval.chromatic</tei:att> in (chromatic) halftone steps (see the example of an trill and upper turn below) or via <tei:att>interval.diatonic</tei:att> in (diatonic) tone steps.
+                With <tei:att>note.order</tei:att> (optional) we can specify which notes in the current scope and note pool are part of the ornament and in which sequence. Possible values are "ascending pitch" (orders all notes at <tei:att>date</tei:att> by increasing pitch), "descending pitch" (opposite of "ascending pitch"), or a space separated list of note ID references as in the above code example. In the space separated list of note ID references, chords (notes to be played at the same time) are defined within "["/"]" (e.g. "[ #n97 #98 ]"), and a repetition group, that is repeated <tei:att>repetitions</tei:att> times, is defined with "|:"/":|" (e.g. "|: #n95 #96 :|"). These annotation symbols are space sparated as well.
+                
                 </tei:p>
 
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
@@ -727,12 +741,12 @@
                     <dated>
                         <ornamentationMap>
                             <style date="0.0" name.ref="my style"/>
-                            <ornament date="4860.0" name.ref="trill" note.order="|: #on1 #n96 :|">
-                                <ornamentNote xml:id="on1" intm="2"/>
+                            <ornament date="4860.0" name.ref="trill" note.order="|: #on1 #n96 :|" repetitions="3">
+                                <note xml:id="on1" interval.chromatic="2.0"/>
                             </ornament> 
                             <ornament date="6300.0" name.ref="upper turn" note.order="#on2 #n97 #on3 #n97">
-                                <ornamentNote xml:id="on2" intm="2"/>
-                                <ornamentNote xml:id="on3" intm="-1"/>
+                                <note xml:id="on2" interval.chromatic="2"/>
+                                <note xml:id="on3" interval.chromatic="-1"/>
                             </ornament>
                         </ornamentationMap>
                     </dated>
