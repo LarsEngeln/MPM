@@ -12,7 +12,6 @@
         <tei:memberOf key="att.temporalSpread"/>
         <tei:memberOf key="att.time.frame"/>
         <tei:memberOf key="att.time.frameLength"/>
-        <tei:memberOf key="att.time.unit" />
         <tei:memberOf key="model.ornamentDefContent"/>
     </tei:classes>
     
@@ -22,15 +21,21 @@
     
     <tei:attList>
         <tei:attDef ident="frameLength" usage="opt" mode="change">
+            <tei:desc>
+                The length of a time frame, given as a floating point number, followed by a unit suffix: <tei:val>ms</tei:val> (milliseconds), <tei:val>%</tei:val> (relative), or <tei:val>ticks</tei:val> (symbolic). If no unit is provided the unit need to be specified by <tei:att>time.unit</tei:att>.
+            </tei:desc>
             <tei:datatype>
-                <tei:dataRef name="double">
-                    <tei:dataFacet name="minInclusive" value="0.0"/>
-                </tei:dataRef>
+                <tei:dataRef name="string"/>
             </tei:datatype>
-            <tei:defaultVal>0.0</tei:defaultVal>
-        </tei:attDef>
-        <tei:attDef ident="time.unit" usage="opt" mode="change">
-            <tei:defaultVal>ticks</tei:defaultVal>
+            <tei:constraintSpec ident="att.time.frameLength_format" scheme="schematron">
+                <tei:constraint>
+                    <schematron:rule context="attribute::frameLength">
+                        <schematron:assert test="matches(., '^-?[0-9]+(\.[0-9]+)?(ms|%|ticks)$')">The value of @frameLength must be a floating point number, followed by a unit suffix 'ms', '%', or 'ticks', e.g. '200ms', '50.0%', or '480ticks'.</schematron:assert>
+                    </schematron:rule>
+                </tei:constraint>
+            </tei:constraintSpec>
+            </tei:datatype>
+            <tei:defaultVal>100%</tei:defaultVal>
         </tei:attDef>
         <tei:attDef ident="noteoff.shift" usage="opt" mode="change">
             <tei:defaultVal>false</tei:defaultVal>
@@ -40,13 +45,13 @@
     <tei:exemplum>
         <egXML xmlns="http://www.tei-c.org/ns/Examples">
             <temporalSpread
-                frame.start="-100.0" frameLength="200.0"
+                frame.offset="-100.0ms" frameLength="200.0ticks"
                 intensity="1.4"
                 noteoff.shift="true"/>
         </egXML>
     </tei:exemplum>
     
     <tei:remarks>
-        <tei:p>The unit of the frame attributes is defined by <tei:att>time.unit</tei:att>.</tei:p>
+        <tei:p>The unit of the frame attributes is defined by a unit suffix.</tei:p>
     </tei:remarks>
 </tei:elementSpec>

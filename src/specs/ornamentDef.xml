@@ -21,6 +21,18 @@
         </relaxng:interleave>
     </tei:content>
     
+    <tei:attList>
+        <tei:attDef ident="alignment" usage="opt">
+            <tei:gloss>alignment</tei:gloss>
+            <tei:desc>Defines whether the ornament is rendered at the start or at the end of the note.</tei:desc>
+            <tei:defaultVal>at start</tei:defaultVal>
+            <tei:valList type="closed">
+                <tei:valItem ident="at start"/>
+                <tei:valItem ident="at end"/>
+            </tei:valList>
+        </tei:attDef>
+    </tei:attList>
+    
     <tei:constraintSpec scheme="schematron" ident="ornamentDef_ancestor_constraint">
         <tei:desc>This element is allowed only within the <tei:gi>ornamentationStyles</tei:gi>/<tei:gi>styleDef</tei:gi> environment.</tei:desc>
         <tei:constraint>
@@ -31,11 +43,20 @@
     </tei:constraintSpec>
     
     <tei:exemplum>
+         <tei:p>
+            The first <tei:gi>ornament</tei:gi> applies an arpeggio with definition name "arpeggio".
+            The second <tei:gi>ornament</tei:gi> applies an turn that is delayed ("at end") defined as "upper turn".
+        </tei:p>
         <egXML xmlns="http://www.tei-c.org/ns/Examples">
             <ornamentDef name="arpeggio">
-                <temporalSpread frame.start="-100.0" frameLength="200.0"
+                <temporalSpread frame.offset="-100.0" frameLength="200.0"
                     intensity="1.4"
                     noteoff.shift="true"/>
+                <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
+            </ornamentDef>
+            <ornamentDef name="upper turn" alignment="at end">
+                <temporalSpread frame.offset="0" frameLength="100.0%"
+                    intensity="1.2"/>
                 <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
             </ornamentDef>
         </egXML>
