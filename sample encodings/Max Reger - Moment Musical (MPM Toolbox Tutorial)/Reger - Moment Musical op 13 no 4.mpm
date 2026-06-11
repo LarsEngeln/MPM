@@ -48,7 +48,7 @@
                     <styleDef name="MEI export">
                         <ornamentDef name="arpeggio">
                             <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
-                            <temporalSpread frame.start="-22.0" frameLength="44.0"/>
+                            <temporalSpread frame.offset="-22.0" frameLength="44.0"/>
                         </ornamentDef>
                     </styleDef>
                 </ornamentationStyles>
@@ -210,7 +210,7 @@
                     <styleDef name="Maria Waloschek">
                         <ornamentDef name="arpeggio">
                             <dynamicsGradient transition.from="-1.0" transition.to="1.0"/>
-                            <temporalSpread frame.start="0.0" frameLength="300.0" time.unit="milliseconds"/>
+                            <temporalSpread frame.offset="0.0" frameLength="300.0" time.unit="milliseconds"/>
                         </ornamentDef>
                     </styleDef>
                 </ornamentationStyles>

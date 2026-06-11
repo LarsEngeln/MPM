@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<tei:elementSpec ident="note" module="mpm.core" mode="add" ns="http://www.cemfi.de/mpm/ns/1.0"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:schematron="http://purl.oclc.org/dsdl/schematron">
+    <tei:gloss>note</tei:gloss>
+
+    <tei:desc>A <tei:gi>note</tei:gi> represents a single musical note. Its <tei:att>xml:id</tei:att> identifies the note and <tei:att>interval.chromatic</tei:att> or <tei:att>interval.diatonic</tei:att> specifies its pitch interval alteration in (chromatic) halftone or diatonic steps.</tei:desc>
+
+    <tei:classes>
+        <tei:memberOf key="att.id"/>
+    </tei:classes>
+
+    <tei:content>
+        <tei:empty/>
+    </tei:content>
+
+    <tei:attList>
+        <tei:attDef ident="midi.pitch" usage="req">
+            <tei:gloss>note pitch according to MIDI</tei:gloss>
+            <tei:datatype>
+                <tei:dataRef name="integer">
+                    <tei:dataFacet name="minInclusive" value="0"/>
+                </tei:dataRef>
+            </tei:datatype>
+        </tei:attDef>
+        <tei:attDef ident="interval.chromatic" usage="opt">
+            <tei:gloss>interval in chromatic steps</tei:gloss>
+            <tei:desc>Specifies the chromatic pitch interval alteration of this note as a double value, e.g. <tei:val>0.0</tei:val> or <tei:val>-1.0</tei:val>.</tei:desc>
+            <tei:datatype>
+                <tei:dataRef name="double">
+                </tei:dataRef>
+            </tei:datatype>
+            <tei:defaultVal>0.0</tei:defaultVal>
+        </tei:attDef>
+        <tei:attDef ident="interval.diatonic" usage="opt">
+            <tei:gloss>interval in diatonic steps</tei:gloss>
+            <tei:desc>Specifies the diatonic pitch interval alteration of this note as an integer value, e.g. <tei:val>0</tei:val> or <tei:val>-1</tei:val>.</tei:desc>
+            <tei:datatype>
+                <tei:dataRef name="integer"/>
+            </tei:datatype>
+            <tei:defaultVal>0</tei:defaultVal>
+        </tei:attDef>
+    </tei:attList>
+
+    <tei:exemplum>
+         <tei:p>
+            The first <tei:gi>ornament</tei:gi> applies two alterations (#n2, #n3) to the principal note (#princNote1) creating an upper turn.
+            The second <tei:gi>ornament</tei:gi> defines a half tone trill ornament, starting with the auxiliary note (#n4) and landing on the principal note (#princNote2), with no repetition as the <tei:att>repetitions</tei:att> attribute is not specified and <tei:val>0</tei:val> by default.
+        </tei:p>
+        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+            <ornament date="0.0" name.ref="upper turn" note.order="#n2 #princNote1 #n3 #princNote1">
+                <note xml:id="n2" interval.chromatic="1.0"/>
+                <note xml:id="n3" interval.chromatic="-1.0"/>
+            </ornament>
+            <ornament date="720.0" name.ref="trill" note.order="|: #n4 #princNote2 :|">
+                <note xml:id="n4" interval.chromatic="1.0"/>
+            </ornament>
+        </egXML>
+    </tei:exemplum>
+</tei:elementSpec>
