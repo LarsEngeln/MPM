@@ -953,6 +953,7 @@
                         <xinclude:include href="specs/accentuationPattern.xml"/>
                     <xinclude:include href="specs/ornamentationMap.xml"/>
                         <xinclude:include href="specs/ornament.xml"/>
+                            <xinclude:include href="specs/note.xml"/>
                     <xinclude:include href="specs/tempoMap.xml"/>
                         <xinclude:include href="specs/tempo.xml"/>
                     <xinclude:include href="specs/rubatoMap.xml"/>
